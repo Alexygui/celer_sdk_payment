@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MultiplayerGameSample/MultiplayerGameSample.iml" filepath="$PROJECT_DIR$/MultiplayerGameSample/MultiplayerGameSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OffchainPaymentSample/OffchainPaymentSample.iml" filepath="$PROJECT_DIR$/OffchainPaymentSample/OffchainPaymentSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/celer_sdk_payment.iml" filepath="$PROJECT_DIR$/celer_sdk_payment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/goceler/goceler.iml" filepath="$PROJECT_DIR$/goceler/goceler.iml" />
+    </modules>
+  </component>
+</project>
