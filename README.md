@@ -2,7 +2,7 @@
 
 作业要求在退出app以后再次打开的时候依然可以进行链下转账，我认为这就是要把账户的信息保存在手机上的本地闪存，再次进入app的时候读取这些数据。
 
-由于我对安卓原生开发，尤其是kotlin并不了解，所以选择了用文件保存数据的方式，保存了`keyStoreString`这个变量，`celerClint`可由`keyStoreString`计算得出。
+由于我对安卓原生开发，尤其是kotlin并不了解，所以选择了用文件保存数据的方式，保存了`keyStoreString`这个变量，再次打开app的时候读取这个变量继续进行操作。`celerClint`可由`keyStoreString`计算得出。
 
 * 作业测试的截图和视频保存在`homwork`文件夹中
 
