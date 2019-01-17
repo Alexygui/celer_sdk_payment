@@ -6,7 +6,8 @@ import network.celer.geth.Geth
 import network.celer.geth.KeyStore
 import java.io.File
 
-object KeyStoreHelper {
+
+object KeyStoreHelper  {
     private val password = "CelerNetwork"
     private var gethKeyStore: KeyStore? = null
     private var account: Account? = null
@@ -37,7 +38,6 @@ object KeyStoreHelper {
             val filePath = generateFilePath(context)
             gethKeyStore = KeyStore(filePath, Geth.LightScryptN, Geth.LightScryptP)
         }
-
         gethKeyStore?.let { gethKeyStore ->
             account = gethKeyStore.newAccount(password)
             account?.let { account ->
@@ -45,4 +45,6 @@ object KeyStoreHelper {
             }
         }
     }
+
 }
+
