@@ -3,11 +3,12 @@ package com.example.payment
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.View
-import com.example.payment.FaucetHelper.*
+import com.example.payment.FaucetHelper.FaucetCallBack
+import com.example.payment.FaucetHelper.FaucetType
 import kotlinx.android.synthetic.main.activity_main.*
-import android.text.method.ScrollingMovementMethod
 
 
 class OffChainPaymentActivity : AppCompatActivity() {
@@ -20,7 +21,31 @@ class OffChainPaymentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initActions()
+        val keyStoreString = KeyStoreHelper.readFile(this, "keyStoreString")
+        if ("".equals(keyStoreString)) {
+            showLog("keyStoreString is null")
+            initActions()
+        } else {
+            showLog("keyStoreString is available")
+            showLog("address is " + KeyStoreHelper.readFile(this, "address"))
+            KeyStoreHelper.setKeyStoreString(keyStoreString)
+            createWalletButton?.visibility = View.INVISIBLE
+            getTokenFromFaucetButton?.visibility = View.INVISIBLE
+            createCelerClientButton?.visibility = View.INVISIBLE
+            joinCelerButton?.visibility = View.INVISIBLE
+            sendPaymentButton?.visibility = View.VISIBLE
+            initActions()
+
+            val result = CelerClientAPIHelper.initCelerClient(
+                    keyStoreString = KeyStoreHelper.getKeyStoreString(),
+                    passwordStr = KeyStoreHelper.getPassword(),
+                    profile = CelerClientAPIHelper.getRopstenTestNetProfile(this))
+            showLog("$result, you can enjoy celer offchain payment")
+
+
+            val balance = CelerClientAPIHelper.checkBalance()
+            showLog("Current balance: $balance")
+        }
     }
 
     private fun showLog(str: String) {
@@ -79,7 +104,7 @@ class OffChainPaymentActivity : AppCompatActivity() {
                             when (faucetType) {
                                 FaucetType.RopstenTestNetETHFromMetaMask -> {
                                     showLog("MetaMask Ropsten ETH faucet failed. This instability is not due to Celer SDK. " +
-                                            "\nPlease try again or find another way to transfer some Ropsten ETH to this address: ${KeyStoreHelper.getAddress()}" )
+                                            "\nPlease try again or find another way to transfer some Ropsten ETH to this address: ${KeyStoreHelper.getAddress()}")
                                     showLog("If this problem happens a lot and you do not have a convenient way to get some Ropsten ETH, " +
                                             "\n please consider using the private TESTNET profile described in CelerClientAPIHelper")
                                 }

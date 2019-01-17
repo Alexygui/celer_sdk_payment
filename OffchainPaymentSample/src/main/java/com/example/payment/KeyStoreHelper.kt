@@ -4,10 +4,11 @@ import android.content.Context
 import network.celer.geth.Account
 import network.celer.geth.Geth
 import network.celer.geth.KeyStore
-import java.io.File
+import java.io.*
+import java.lang.Exception
 
 
-object KeyStoreHelper  {
+object KeyStoreHelper {
     private val password = "CelerNetwork"
     private var gethKeyStore: KeyStore? = null
     private var account: Account? = null
@@ -19,6 +20,10 @@ object KeyStoreHelper  {
 
     fun getPassword(): String {
         return password
+    }
+
+    fun setKeyStoreString(str: String) {
+        keyStoreString = str
     }
 
     fun getKeyStoreString(): String {
@@ -42,9 +47,28 @@ object KeyStoreHelper  {
             account = gethKeyStore.newAccount(password)
             account?.let { account ->
                 keyStoreString = String(gethKeyStore.exportKey(account, password, password), Charsets.UTF_8)
+                writeFile(context, "keyStoreString", keyStoreString)
+                writeFile(context, "address", account.address.hex)
             }
         }
     }
 
+    fun writeFile(context: Context, key: String, value: String) {
+        val dirPath = generateFilePath(context)
+        val file = File(dirPath, key)
+        file.writeText(value)
+        println("writeFile----------------" + file.readText())
+    }
+
+    fun readFile(context: Context, key: String): String {
+        try {
+            val filename = generateFilePath(context) + "/" + key
+            val file = File(filename)
+            println("readFile----------------" + file.readText())
+            return file.readText()
+        } catch (e: Exception) {
+            return ""
+        }
+    }
 }
 
